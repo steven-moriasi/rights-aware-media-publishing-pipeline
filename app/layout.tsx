@@ -21,6 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <nav aria-label="Primary">
             <Link href="/assets">Assets</Link>
             <Link href="/uploads">Ingest</Link>
+            <Link href="/publishing">Publishing</Link>
             <Link href="/operations">Operations</Link>
           </nav>
         </header>

@@ -18,6 +18,10 @@ The implementation is a modular monolith. PostgreSQL owns lifecycle metadata and
 - FFmpeg and ffprobe validation inside a read-only, no-new-privileges worker.
 - Accessible native media controls, transcript cues, and time-addressed annotation evidence.
 - Optimistic review revisions and requester/reviewer separation of duties.
+- Time-, territory-, rendition-, and destination-bounded rights grants.
+- Scheduled publication intents with idempotency keys and execution-time approval and rights checks.
+- Explicit unknown delivery outcomes, operator reconciliation, and append-only receipts.
+- Five-minute signed delivery scopes that stop serving immediately after compensating revocation.
 - Local-only object-store and database ports.
 - A truth-boundary-first product shell.
 
