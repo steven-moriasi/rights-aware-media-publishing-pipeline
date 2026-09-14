@@ -1,0 +1,12 @@
+{
+  "environment": "single local Docker Compose application container",
+  "requests": 100,
+  "concurrency": 1,
+  "p50_ms": 2.095,
+  "p95_ms": 3.522,
+  "p99_ms": 4.186,
+  "source_bytes": 10500,
+  "rendition_bytes": 7862,
+  "storage_amplification": 1.749,
+  "scope": "liveness endpoint only; not a media throughput claim"
+}

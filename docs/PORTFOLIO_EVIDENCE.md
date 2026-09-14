@@ -13,4 +13,4 @@ This repository is a synthetic reference implementation and makes no production,
 | Security | parser isolation controls, signed delivery scope, hostile fixtures, redacted metrics |
 | Operations | job leases, cleanup, hash-chain verification, database/object recovery |
 
-The runtime verifier exercises one complete synthetic journey from upload through revocation. Benchmark evidence is explicitly scoped to the liveness endpoint and must not be interpreted as media throughput.
+The runtime verifier exercises one complete synthetic journey from upload through revocation. `evidence/benchmark.json` records local liveness latency and measured source-plus-rendition storage amplification; it must not be interpreted as media throughput.

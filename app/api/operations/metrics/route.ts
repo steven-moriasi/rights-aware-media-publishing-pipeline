@@ -14,8 +14,10 @@ export async function GET(request: Request) {
       count(*) filter (where state = 'leased')::int as leased,
       count(*) filter (where state = 'quarantined')::int as quarantined,
       coalesce(
-        extract(epoch from now() - min(created_at))
-          filter (where state = 'queued'),
+        extract(
+          epoch from now() -
+            min(created_at) filter (where state = 'queued')
+        ),
         0
       )::int as oldest_queue_seconds
     from transform_jobs
@@ -24,8 +26,10 @@ export async function GET(request: Request) {
     select
       count(*) filter (where state = 'unknown')::int as unknown,
       coalesce(
-        extract(epoch from now() - min(updated_at))
-          filter (where state = 'unknown'),
+        extract(
+          epoch from now() -
+            min(updated_at) filter (where state = 'unknown')
+        ),
         0
       )::int as oldest_unknown_seconds,
       count(*) filter (where state = 'revoked')::int as revoked
@@ -33,9 +37,19 @@ export async function GET(request: Request) {
   `;
   const [storage] = await sql`
     select
-      coalesce(sum(size_bytes), 0)::bigint as source_bytes,
-      count(*)::int as asset_versions
-    from asset_versions
+      (
+        select coalesce(sum(size_bytes), 0)::bigint
+        from asset_versions
+      ) as source_bytes,
+      (
+        select coalesce(sum(output_size_bytes), 0)::bigint
+        from transform_jobs
+        where state = 'completed'
+      ) as rendition_bytes,
+      (
+        select count(*)::int
+        from asset_versions
+      ) as asset_versions
   `;
   return NextResponse.json({
     generatedAt: new Date().toISOString(),
