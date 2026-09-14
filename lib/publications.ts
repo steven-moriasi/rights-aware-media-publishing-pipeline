@@ -87,7 +87,7 @@ export async function executePublication(
       join asset_versions
         on asset_versions.id = publication_intents.asset_version_id
       where publication_intents.id = ${publicationIntentId}
-      for update
+      for update of publication_intents
     `;
     if (intent === undefined) {
       throw new PublicationStateError("Publication intent was not found.");
@@ -208,9 +208,16 @@ export async function executePublication(
           ${rendition.outputObjectKey}
         )
         on conflict (publication_intent_id)
-        do update set provider_delivery_id = excluded.provider_delivery_id
+        do nothing
         returning *
       `;
+      if (receipt === undefined) {
+        [receipt] = await transaction`
+          select *
+          from delivery_receipts
+          where publication_intent_id = ${publicationIntentId}
+        `;
+      }
     }
     const [updated] = await transaction`
       update publication_intents

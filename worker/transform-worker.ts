@@ -84,9 +84,9 @@ async function leaseJob(): Promise<TransformJob | null> {
       worker_id = ${workerId},
       lease_until = now() + interval '45 seconds',
       updated_at = now()
-    from candidate
-    join asset_versions on asset_versions.id = transform_jobs.asset_version_id
+    from candidate, asset_versions
     where transform_jobs.id = candidate.id
+      and asset_versions.id = transform_jobs.asset_version_id
     returning
       transform_jobs.id,
       transform_jobs.asset_version_id,
@@ -168,6 +168,7 @@ async function processJob(job: TransformJob): Promise<void> {
           state = 'completed',
           output_object_key = ${outputObjectKey},
           output_sha256 = ${outputSha256},
+          output_size_bytes = ${output.byteLength},
           output_media_type = ${outputIsVideo ? "video/mp4" : "audio/mpeg"},
           duration_ms = ${durationMs},
           width = ${videoStream?.width ?? null},
@@ -236,7 +237,17 @@ async function failJob(job: TransformJob, error: unknown): Promise<void> {
 
 async function main(): Promise<void> {
   for (;;) {
-    const job = await leaseJob();
+    let job: TransformJob | null;
+    try {
+      job = await leaseJob();
+    } catch (error) {
+      console.error(
+        "transform lease failed",
+        error instanceof Error ? error.message : "unknown database error",
+      );
+      await new Promise((resolve) => setTimeout(resolve, 2_000));
+      continue;
+    }
     if (job === null) {
       await new Promise((resolve) => setTimeout(resolve, 1_000));
       continue;

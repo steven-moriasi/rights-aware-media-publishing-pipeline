@@ -43,7 +43,7 @@ export async function queueTransform(
       transform_identity
     )
     values (${assetVersionId}, ${reviewSpecId}, ${identity})
-    on conflict (transform_identity)
+    on conflict (asset_version_id, transform_identity)
     do update set transform_identity = excluded.transform_identity
     returning *
   `;
