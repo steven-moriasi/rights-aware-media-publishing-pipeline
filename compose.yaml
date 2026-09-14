@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres:17.6-alpine
+    environment:
+      POSTGRES_DB: media_pipeline
+      POSTGRES_PASSWORD: local-admin-password
+      POSTGRES_USER: media_admin
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U media_admin -d media_pipeline"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    ports:
+      - "127.0.0.1:5436:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d:ro
+
+  object-store:
+    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: media-local-access
+      MINIO_ROOT_PASSWORD: media-local-secret-change-before-sharing
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - object-data:/data
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgres://media_app:local-app-password@postgres:5432/media_pipeline
+      OBJECT_ENDPOINT: object-store
+      OBJECT_PORT: 9000
+      OBJECT_ACCESS_KEY: media-local-access
+      OBJECT_SECRET_KEY: media-local-secret-change-before-sharing
+      OBJECT_BUCKET: media-pipeline
+      OBJECT_USE_SSL: "false"
+      OPERATIONS_SECRET: local-operations-secret-change-before-sharing
+      PUBLICATION_SIGNING_SECRET: local-publication-signing-secret-change-before-sharing
+    depends_on:
+      postgres:
+        condition: service_healthy
+      object-store:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    ports:
+      - "127.0.0.1:3004:3000"
+
+volumes:
+  object-data:
+  postgres-data:
