@@ -141,6 +141,68 @@ footer {
   line-height: 1.65;
 }
 
+.workspace {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 760px;
+}
+
+.workspace h1,
+.page > section > h1 {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  letter-spacing: -0.05em;
+  margin: 0.5rem 0;
+}
+
+label {
+  color: var(--muted);
+  display: grid;
+  font-weight: 700;
+  gap: 0.55rem;
+}
+
+input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  color: var(--text);
+  font: inherit;
+  padding: 0.8rem;
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
+}
+
+progress {
+  accent-color: var(--accent);
+  height: 1rem;
+  width: 100%;
+}
+
+.muted {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.list {
+  border-top: 1px solid var(--border);
+}
+
+.row {
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+}
+
+.row p {
+  margin-bottom: 0;
+}
+
 .boundary {
   max-width: 780px;
 }

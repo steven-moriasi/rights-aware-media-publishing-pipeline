@@ -9,6 +9,8 @@ The implementation is a modular monolith. PostgreSQL owns lifecycle metadata and
 - Pinned Next.js, TypeScript, PostgreSQL, and MinIO dependencies.
 - Bounded actor roles for producers, reviewers, rights managers, publishers, and operators.
 - Upload sessions with explicit expiry, part limits, checksums, and promotion states.
+- Browser-managed multipart upload with pause and resume behavior.
+- Server-side verification of declared size, SHA-256, bounded media signatures, and a deterministic scanner fixture.
 - Immutable asset versions with source-object and checksum lineage.
 - Quarantine and append-only audit evidence.
 - Local-only object-store and database ports.

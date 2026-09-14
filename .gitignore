@@ -4,3 +4,4 @@ node_modules
 backups
 evidence/runtime
 *.log
+*.tsbuildinfo
