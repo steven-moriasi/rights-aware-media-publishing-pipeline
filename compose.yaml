@@ -53,6 +53,30 @@ services:
     ports:
       - "127.0.0.1:3004:3000"
 
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
+      DATABASE_URL: postgres://media_app:local-app-password@postgres:5432/media_pipeline
+      OBJECT_ENDPOINT: object-store
+      OBJECT_PORT: 9000
+      OBJECT_ACCESS_KEY: media-local-access
+      OBJECT_SECRET_KEY: media-local-secret-change-before-sharing
+      OBJECT_BUCKET: media-pipeline
+      OBJECT_USE_SSL: "false"
+      WORKER_ID: transform-worker-1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      object-store:
+        condition: service_started
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+
 volumes:
   object-data:
   postgres-data:

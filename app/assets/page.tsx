@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { getDatabase } from "@/lib/database";
 import { listAssets } from "@/lib/uploads";
 
@@ -17,7 +19,9 @@ export default async function AssetsPage() {
             assets.map((asset) => (
               <article className="row" key={asset.versionId}>
                 <div>
-                  <strong>{asset.title}</strong>
+                  <strong>
+                    <Link href={`/assets/${asset.id}`}>{asset.title}</Link>
+                  </strong>
                   <p className="muted">
                     Version {asset.versionNumber} · {asset.mediaType}
                   </p>

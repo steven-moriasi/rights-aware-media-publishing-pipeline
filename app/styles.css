@@ -203,6 +203,22 @@ progress {
   margin-bottom: 0;
 }
 
+.two-column {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+video,
+audio {
+  background: #050709;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  margin-top: 1.5rem;
+  max-height: 520px;
+  width: 100%;
+}
+
 .boundary {
   max-width: 780px;
 }
@@ -221,6 +237,10 @@ footer {
     align-items: flex-start;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .two-column {
+    grid-template-columns: 1fr;
   }
 }
 

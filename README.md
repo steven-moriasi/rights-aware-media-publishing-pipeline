@@ -13,6 +13,11 @@ The implementation is a modular monolith. PostgreSQL owns lifecycle metadata and
 - Server-side verification of declared size, SHA-256, bounded media signatures, and a deterministic scanner fixture.
 - Immutable asset versions with source-object and checksum lineage.
 - Quarantine and append-only audit evidence.
+- Idempotent review rendition identity keyed by source checksum and versioned specification.
+- PostgreSQL job leases with worker-kill recovery and poison-job quarantine.
+- FFmpeg and ffprobe validation inside a read-only, no-new-privileges worker.
+- Accessible native media controls, transcript cues, and time-addressed annotation evidence.
+- Optimistic review revisions and requester/reviewer separation of duties.
 - Local-only object-store and database ports.
 - A truth-boundary-first product shell.
 
