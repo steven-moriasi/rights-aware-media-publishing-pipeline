@@ -22,6 +22,8 @@ The implementation is a modular monolith. PostgreSQL owns lifecycle metadata and
 - Scheduled publication intents with idempotency keys and execution-time approval and rights checks.
 - Explicit unknown delivery outcomes, operator reconciliation, and append-only receipts.
 - Five-minute signed delivery scopes that stop serving immediately after compensating revocation.
+- Hash-chained append-only audit events and protected aggregate operations metrics.
+- Expired-part cleanup plus PostgreSQL and object-volume backup and restore exercises.
 - Local-only object-store and database ports.
 - A truth-boundary-first product shell.
 
@@ -42,3 +44,14 @@ docker compose config --quiet
 ```
 
 The local stack exposes the application at `http://127.0.0.1:3004`, MinIO at loopback ports `9000` and `9001`, and PostgreSQL at loopback port `5436`.
+
+With the stack running:
+
+```sh
+npm run verify:stack
+npm run verify:audit
+npm run verify:benchmark
+npm run verify:recovery
+```
+
+Architecture, threat boundaries, evidence, operational signals, and response procedures are documented under `docs/`.

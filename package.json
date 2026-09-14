@@ -9,7 +9,11 @@
     "lint": "eslint .",
     "start": "next start",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify:audit": "sh scripts/verify-audit-chain.sh",
+    "verify:benchmark": "sh scripts/benchmark-stack.sh",
+    "verify:recovery": "sh scripts/verify-authority-recovery.sh",
+    "verify:stack": "sh scripts/verify-stack.sh"
   },
   "engines": {
     "node": ">=22.22.0"
