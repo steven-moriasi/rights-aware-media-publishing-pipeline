@@ -27,6 +27,8 @@ The implementation is a modular monolith. PostgreSQL owns lifecycle metadata and
 - Local-only object-store and database ports.
 - A truth-boundary-first product shell.
 
+## Limits
+
 Fixtures must be self-created, public-domain, or explicitly licensed. Destinations are local or sandboxed. Initial timing guarantees cover constant-frame-rate fixtures only. This is not a DRM, broadcast-compliance, universal frame-accuracy, real CDN, or studio-scale system.
 
 ## Local verification
